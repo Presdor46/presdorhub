@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Notifications</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+margin:0;
+}
+
+.header{
+background:#2563EB;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+padding:20px;
+}
+
+input,textarea{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:8px;
+box-sizing:border-box;
+}
+
+textarea{
+height:120px;
+resize:none;
+}
+
+button{
+width:100%;
+padding:14px;
+background:#2563EB;
+color:white;
+border:none;
+border-radius:8px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+Send Notification
+</div>
+
+<div class="container">
+
+<input
+id="title"
+type="text"
+placeholder="Notification Title">
+
+<textarea
+id="message"
+placeholder="Notification Message"></textarea>
+
+<button id="sendBtn">
+Send Notification
+</button>
+
+</div>
+
+<script type="module" src="js/admin-auth.js"></script>
+<script type="module" src="js/admin-notifications.js"></script>
+
+</body>
+</html>

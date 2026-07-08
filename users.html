@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manage Users</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.header{
+background:#2563EB;
+color:#fff;
+padding:20px;
+text-align:center;
+font-size:30px;
+font-weight:bold;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:#fff;
+padding:15px;
+margin-bottom:15px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.card h3{
+margin:0 0 10px;
+}
+
+.card p{
+margin:5px 0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+Manage Users
+</div>
+
+<div class="container" id="userList">
+
+Loading...
+
+</div>
+
+<script type="module" src="js/admin-auth.js"></script>
+<script type="module" src="js/users.js"></script>
+
+</body>
+
+</html>

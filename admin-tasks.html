@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manage Tasks</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+margin:0;
+padding:20px;
+}
+
+.header{
+background:#2563EB;
+color:white;
+padding:18px;
+text-align:center;
+font-size:28px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:8px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#2563EB;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+font-weight:bold;
+}
+
+#taskList{
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+Manage Tasks
+
+</div>
+
+<div class="card">
+
+<input
+type="text"
+id="title"
+placeholder="Task Title">
+
+<input
+type="number"
+id="reward"
+placeholder="Reward Amount">
+
+<button id="addTask">
+
+Add Task
+
+</button>
+
+</div>
+
+<div id="taskList">
+
+Loading...
+
+</div>
+<script type="module" src="js/admin-auth.js"></script>
+<script type="module" src="js/admin.js"></script>
+<script type="module" src="js/admin-tasks.js"></script>
+
+</body>
+
+</html>

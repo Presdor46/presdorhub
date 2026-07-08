@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.header{
+background:#2563EB;
+color:#fff;
+padding:20px;
+text-align:center;
+font-size:30px;
+font-weight:bold;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+}
+
+.container{
+padding:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.card{
+background:#fff;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+text-align:center;
+}
+
+.card h2{
+margin:0;
+font-size:30px;
+color:#2563EB;
+}
+
+.card p{
+margin-top:10px;
+font-weight:bold;
+}
+
+.menu{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu a{
+display:block;
+padding:15px;
+background:#2563EB;
+color:white;
+text-decoration:none;
+text-align:center;
+border-radius:10px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+Admin Dashboard
+</div>
+
+<div class="container">
+
+<div class="grid">
+
+<div class="card">
+<h2 id="totalUsers">0</h2>
+<p>Total Users</p>
+</div>
+
+<div class="card">
+<h2 id="pendingDeposits">0</h2>
+<p>Pending Deposits</p>
+</div>
+
+<div class="card">
+<h2 id="pendingWithdrawals">0</h2>
+<p>Pending Withdrawals</p>
+</div>
+
+<div class="card">
+<h2 id="totalTransactions">0</h2>
+<p>Total Transactions</p>
+</div>
+
+</div>
+
+<div class="menu">
+
+<a href="admin-deposits.html">
+Manage Deposits
+</a>
+
+<a href="admin-withdraw.html">
+Manage Withdrawals
+</a>
+
+<a href="users.html">
+Manage Users
+</a>
+
+<a href="admin-tasks.html">
+Manage Tasks
+</a>
+
+</div>
+
+</div>
+
+<script type="module" src="js/admin-auth.js"></script>
+<script type="module" src="js/admin-dashboard.js"></script>
+
+</body>
+
+</html>

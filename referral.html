@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Referral</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.header{
+background:#2563EB;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:14px;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:16px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+background:#2563EB;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.stat{
+background:white;
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+text-align:center;
+}
+
+.stat h2{
+margin:0;
+color:#2563EB;
+font-size:30px;
+}
+
+.stat p{
+margin-top:8px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+Referral System
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<label>Your Referral Code</label>
+
+<input
+type="text"
+id="referralCode"
+readonly>
+
+<button id="copyBtn">
+
+Copy Referral Code
+
+</button>
+
+</div>
+
+<div class="stat">
+
+<h2 id="totalReferrals">0</h2>
+
+<p>Total Referrals</p>
+
+</div>
+
+<div class="stat">
+
+<h2 id="totalBonus">₦0</h2>
+
+<p>Total Referral Bonus</p>
+
+</div>
+
+</div>
+
+<script type="module" src="js/referral.js"></script>
+
+</body>
+
+</html>

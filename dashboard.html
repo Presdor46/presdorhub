@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Presdor Hub</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.header{
+background:#2563EB;
+color:white;
+padding:25px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.header h2{
+margin:0;
+}
+
+.balance-card{
+background:white;
+margin:20px;
+padding:20px;
+border-radius:15px;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+text-align:center;
+}
+
+.balance{
+font-size:35px;
+font-weight:bold;
+color:#2563EB;
+margin:10px 0;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+padding:20px;
+}
+
+.item{
+background:white;
+padding:20px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+text-decoration:none;
+color:#000;
+font-weight:bold;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:15px;
+box-shadow:0 -2px 10px rgba(0,0,0,.1);
+}
+
+.bottom-nav a{
+text-decoration:none;
+color:#2563EB;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h2 id="welcome">
+Welcome
+</h2>
+
+<p>
+Presdor Hub
+</p>
+
+</div>
+
+<div class="balance-card">
+
+<p>Available Balance</p>
+
+<div class="balance">
+
+₦<span id="balance">0</span>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<a class="item" href="deposit.html">
+💰<br><br>
+Deposit
+</a>
+
+<a class="item" href="withdraw.html">
+💸<br><br>
+Withdraw
+</a>
+
+<a class="item" href="tasks.html">
+📋<br><br>
+Tasks
+</a>
+
+<a class="item" href="referral.html">
+👥<br><br>
+Referral
+</a>
+
+<a class="item" href="history.html">
+📜<br><br>
+History
+</a>
+
+<a class="item" href="profile.html">
+👤<br><br>
+Profile
+</a>
+
+</div>
+
+<div class="bottom-nav">
+
+<a href="dashboard.html">🏠 Home</a>
+
+<a href="tasks.html">📋 Tasks</a>
+
+<a href="deposit.html">💰 Deposit</a>
+
+<a href="profile.html">👤 Profile</a>
+
+</div>
+
+<script type="module" src="js/dashboard.js"></script>
+
+</body>
+
+</html>

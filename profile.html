@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Profile</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.header{
+background:#2563EB;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.info{
+margin-bottom:15px;
+}
+
+.info h3{
+margin:0;
+color:#2563EB;
+}
+
+.info p{
+margin:5px 0 0;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:20px;
+border:none;
+border-radius:10px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.logout{
+background:#dc2626;
+color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+My Profile
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<div class="info">
+<h3>Full Name</h3>
+<p id="fullName">Loading...</p>
+</div>
+
+<div class="info">
+<h3>Email</h3>
+<p id="email">Loading...</p>
+</div>
+
+<div class="info">
+<h3>Phone</h3>
+<p id="phone">Loading...</p>
+</div>
+
+<div class="info">
+<h3>Balance</h3>
+<p id="balance">₦0</p>
+</div>
+
+<button class="logout" id="logoutBtn">
+
+Logout
+
+</button>
+
+</div>
+
+</div>
+
+<script type="module" src="js/profile.js"></script>
+
+</body>
+
+</html>

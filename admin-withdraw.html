@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manage Withdrawals</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.header{
+background:#2563EB;
+color:#fff;
+padding:20px;
+text-align:center;
+font-size:30px;
+font-weight:bold;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:#fff;
+padding:15px;
+margin-bottom:15px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.card p{
+margin:8px 0;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#16a34a;
+color:#fff;
+border:none;
+border-radius:8px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+Manage Withdrawals
+
+</div>
+
+<div class="container" id="withdrawList">
+
+Loading...
+
+</div>
+
+<script type="module" src="js/admin-auth.js"></script>
+<script type="module" src="js/admin-withdraw.js"></script>
+
+</body>
+
+</html>
