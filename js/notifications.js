@@ -23,35 +23,38 @@ async function loadNotifications() {
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      notificationList.innerHTML =
-      "<h3>No notifications available.</h3>";
+      notificationList.innerHTML = `
+        <h3>No notifications available.</h3>
+      `;
       return;
     }
 
     notificationList.innerHTML = "";
 
-    snapshot.forEach((doc) => {
+    snapshot.forEach((item) => {
 
-      const data = doc.data();
+      const data = item.data();
 
-      let date = "";
+      let date = "No Date";
 
       if (data.createdAt) {
-        date = data.createdAt.toDate().toLocaleString();
+        try {
+          date = data.createdAt.toDate().toLocaleString();
+        } catch (e) {
+          date = "Unknown Date";
+        }
       }
 
       notificationList.innerHTML += `
+        <div class="card">
 
-      <div class="card">
+          <h3>${data.title || "Notification"}</h3>
 
-        <h3>${data.title}</h3>
+          <p>${data.message || ""}</p>
 
-        <p>${data.message}</p>
+          <p class="time">${date}</p>
 
-        <p class="time">${date}</p>
-
-      </div>
-
+        </div>
       `;
 
     });
@@ -60,8 +63,11 @@ async function loadNotifications() {
 
     console.error(error);
 
-    notificationList.innerHTML =
-    "<h3>Failed to load notifications.</h3>";
+    alert(error.message);
+
+    notificationList.innerHTML = `
+      <h3>${error.message}</h3>
+    `;
 
   }
 

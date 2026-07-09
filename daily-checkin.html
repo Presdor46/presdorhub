@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Admin Notifications</title>
+<title>Daily Check-in</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial,sans-serif;
@@ -33,27 +30,20 @@ background:white;
 padding:20px;
 border-radius:15px;
 box-shadow:0 2px 10px rgba(0,0,0,.1);
+text-align:center;
 }
 
-input,textarea{
-width:100%;
-padding:14px;
-margin-bottom:15px;
-border:1px solid #ccc;
-border-radius:10px;
-box-sizing:border-box;
-font-size:16px;
-}
-
-textarea{
-height:120px;
-resize:none;
+.reward{
+font-size:40px;
+font-weight:bold;
+color:#16a34a;
+margin:20px 0;
 }
 
 button{
 width:100%;
 padding:15px;
-background:#2563EB;
+background:#16a34a;
 color:white;
 border:none;
 border-radius:10px;
@@ -61,7 +51,6 @@ font-size:18px;
 font-weight:bold;
 cursor:pointer;
 }
-
 </style>
 
 </head>
@@ -69,35 +58,30 @@ cursor:pointer;
 <body>
 
 <div class="header">
-
-🔔 Send Notification
-
+🎁 Daily Check-in
 </div>
 
 <div class="container">
 
 <div class="card">
 
-<input
-type="text"
-id="title"
-placeholder="Notification Title">
+<h2>Today's Reward</h2>
 
-<textarea
-id="message"
-placeholder="Notification Message"></textarea>
+<div class="reward">
+₦20
+</div>
 
-<button id="sendBtn">
+<p>Claim your reward once every 24 hours.</p>
 
-📤 Send Notification
-
+<button id="claimBtn">
+Claim Reward
 </button>
 
 </div>
 
 </div>
 
-<script type="module" src="js/admin-notifications.js"></script>
+<script type="module" src="js/daily-checkin.js"></script>
 
 </body>
 </html>
