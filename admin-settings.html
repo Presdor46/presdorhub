@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Settings</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.header{
+background:#2563EB;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+input,textarea{
+width:100%;
+padding:14px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:10px;
+box-sizing:border-box;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:15px;
+background:#2563EB;
+color:white;
+border:none;
+border-radius:10px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+⚙️ Admin Settings
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<input
+type="number"
+id="referralBonus"
+placeholder="Referral Bonus">
+
+<input
+type="number"
+id="minimumDeposit"
+placeholder="Minimum Deposit">
+
+<input
+type="number"
+id="minimumWithdraw"
+placeholder="Minimum Withdrawal">
+
+<textarea
+id="notice"
+placeholder="Notice to users"></textarea>
+
+<button id="saveBtn">
+
+💾 Save Settings
+
+</button>
+
+</div>
+
+</div>
+
+<script type="module" src="js/admin-settings.js"></script>
+
+</body>
+
+</html>
