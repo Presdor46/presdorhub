@@ -57,13 +57,11 @@ async function loadDeposits() {
 
         <p><b>Status:</b> ${data.status}</p>
 
-        <button class="approve"
-        onclick="approveDeposit('${request.id}')">
+        <button class="approve" onclick="approveDeposit('${request.id}')">
         ✅ Approve
         </button>
 
-        <button class="reject"
-        onclick="rejectDeposit('${request.id}')">
+        <button class="reject" onclick="rejectDeposit('${request.id}')">
         ❌ Reject
         </button>
 
@@ -115,7 +113,7 @@ window.approveDeposit = async function(id){
     const user = userSnap.data();
 
     await updateDoc(userRef,{
-      balance:(user.balance||0)+Number(data.amount)
+      balance:(user.balance || 0) + Number(data.amount)
     });
 
     await updateDoc(requestRef,{
@@ -142,4 +140,38 @@ window.approveDeposit = async function(id){
 
     loadDeposits();
 
+  }catch(error){
+
+    console.error(error);
+
+    alert(error.message);
+
   }
+
+};
+
+window.rejectDeposit = async function(id){
+
+  try{
+
+    await updateDoc(doc(db,"depositRequests",id),{
+
+      status:"rejected"
+
+    });
+
+    alert("Deposit Rejected.");
+
+    loadDeposits();
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(error.message);
+
+  }
+
+};
+
+loadDeposits();
