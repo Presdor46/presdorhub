@@ -5,15 +5,15 @@ import {
   getDocs,
   query,
   orderBy
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const notificationList = document.getElementById("notificationList");
 
 async function loadNotifications() {
 
-  try {
+  notificationList.innerHTML = "Loading...";
 
-    notificationList.innerHTML = "Loading...";
+  try {
 
     const q = query(
       collection(db, "notifications"),
@@ -22,24 +22,23 @@ async function loadNotifications() {
 
     const snapshot = await getDocs(q);
 
-    notificationList.innerHTML = "";
-
     if (snapshot.empty) {
-
-      notificationList.innerHTML = `
-      <div class="card">
-        <h3>No Notifications</h3>
-        <p>No announcements available.</p>
-      </div>
-      `;
-
+      notificationList.innerHTML =
+      "<h3>No notifications available.</h3>";
       return;
-
     }
 
-    snapshot.forEach((docSnap) => {
+    notificationList.innerHTML = "";
 
-      const data = docSnap.data();
+    snapshot.forEach((doc) => {
+
+      const data = doc.data();
+
+      let date = "";
+
+      if (data.createdAt) {
+        date = data.createdAt.toDate().toLocaleString();
+      }
 
       notificationList.innerHTML += `
 
@@ -49,6 +48,8 @@ async function loadNotifications() {
 
         <p>${data.message}</p>
 
+        <p class="time">${date}</p>
+
       </div>
 
       `;
@@ -57,14 +58,10 @@ async function loadNotifications() {
 
   } catch (error) {
 
-    console.log(error);
+    console.error(error);
 
-    notificationList.innerHTML = `
-      <div class="card">
-        <h3>Error</h3>
-        <p>${error.message}</p>
-      </div>
-    `;
+    notificationList.innerHTML =
+    "<h3>Failed to load notifications.</h3>";
 
   }
 
