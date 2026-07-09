@@ -17,7 +17,7 @@ async function loadSubmissions() {
   try {
 
     const snapshot = await getDocs(collection(db, "taskSubmissions"));
-
+console.log(snapshot.size);
     if (snapshot.empty) {
       submissions.innerHTML = "<h3>No submissions found.</h3>";
       return;
@@ -75,7 +75,8 @@ async function loadSubmissions() {
 
   } catch (error) {
 
-    console.log(error);
+    console.error(error);
+alert(error.message);
 
     submissions.innerHTML = "<h3>Failed to load submissions.</h3>";
 
