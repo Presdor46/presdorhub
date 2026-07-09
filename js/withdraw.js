@@ -94,6 +94,13 @@ withdrawBtn.addEventListener("click", async () => {
     document.getElementById("accountNumber").value = "";
     document.getElementById("bankName").value = "";
 
-  } catch (error) {
+    } catch (error) {
+
+    alert(error.message);
+    console.log(error);
+
+  }
+
+});
 
     alert

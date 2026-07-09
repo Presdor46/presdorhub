@@ -41,9 +41,7 @@ async function loadWithdrawals() {
           fullName = userSnap.data().fullName || "Unknown User";
         }
 
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
 
       withdrawList.innerHTML += `
 
@@ -61,12 +59,18 @@ async function loadWithdrawals() {
 
         <p><b>Status:</b> ${data.status}</p>
 
-        <button class="approve" onclick="approveWithdraw('${request.id}')">
+        <button class="approve"
+        onclick="approveWithdraw('${request.id}')">
+
         ✅ Approve
+
         </button>
 
-        <button class="reject" onclick="rejectWithdraw('${request.id}')">
+        <button class="reject"
+        onclick="rejectWithdraw('${request.id}')">
+
         ❌ Reject
+
         </button>
 
       </div>
@@ -121,16 +125,71 @@ window.approveWithdraw = async function(id) {
     const amount = Number(data.amount || 0);
 
     if (currentBalance < amount) {
-      alert("User balance is not enough.");
+      alert("Insufficient balance.");
       return;
     }
 
     await updateDoc(userRef, {
-      balance: currentBalance - amount
+      balance: currentBalance - amount,
+      withdrawals: (user.withdrawals || 0) + 1
     });
 
     await updateDoc(requestRef, {
       status: "approved"
     });
 
-    await
+    await addDoc(collection(db, "transactions"), {
+
+      userId: data.userId,
+
+      title: "Withdrawal",
+
+      amount: amount,
+
+      type: "debit",
+
+      status: "completed",
+
+      createdAt: serverTimestamp()
+
+    });
+
+    alert("Withdrawal approved successfully.");
+
+    loadWithdrawals();
+
+  } catch (error) {
+
+    alert(error.message);
+
+    console.log(error);
+
+  }
+
+};
+
+window.rejectWithdraw = async function(id) {
+
+  try {
+
+    const requestRef = doc(db, "withdrawRequests", id);
+
+    await updateDoc(requestRef, {
+
+      status: "rejected"
+
+    });
+
+    alert("Withdrawal rejected.");
+
+    loadWithdrawals();
+
+  } catch (error) {
+
+    alert(error.message);
+
+  }
+
+};
+
+loadWithdrawals();
