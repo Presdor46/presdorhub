@@ -1,4 +1,4 @@
-import { auth, db } from "./firebase.js";
+import { db } from "./firebase.js";
 
 import {
   collection,
@@ -10,19 +10,36 @@ import {
 
 const submissions = document.getElementById("submissions");
 
-async function loadSubmissions(){
+async function loadSubmissions() {
 
   submissions.innerHTML = "Loading...";
 
-  try{
+  try {
 
-    const snapshot = await getDocs(collection(db,"taskSubmissions"));
+    const snapshot = await getDocs(collection(db, "taskSubmissions"));
+
+    if (snapshot.empty) {
+      submissions.innerHTML = "<h3>No submissions found.</h3>";
+      return;
+    }
 
     submissions.innerHTML = "";
 
-    snapshot.forEach((submission)=>{
+    for (const submission of snapshot.docs) {
 
       const data = submission.data();
+
+      let fullName = data.userId;
+
+      try {
+
+        const userSnap = await getDoc(doc(db, "users", data.userId));
+
+        if (userSnap.exists()) {
+          fullName = userSnap.data().fullName || data.userId;
+        }
+
+      } catch (e) {}
 
       submissions.innerHTML += `
 
@@ -30,11 +47,11 @@ async function loadSubmissions(){
 
         <h3>${data.taskTitle}</h3>
 
-        <p>User ID: ${data.userId}</p>
+        <p><b>User:</b> ${fullName}</p>
 
-        <p>Reward: ₦${data.reward}</p>
+        <p><b>Reward:</b> ₦${data.reward}</p>
 
-        <p>Status: ${data.status}</p>
+        <p><b>Status:</b> ${data.status}</p>
 
         <button class="approve"
         onclick="approveTask('${submission.id}')">
@@ -54,28 +71,50 @@ async function loadSubmissions(){
 
       `;
 
-    });
-
-    if(submissions.innerHTML===""){
-
-      submissions.innerHTML="<h3>No submissions.</h3>";
-
     }
 
-  }catch(error){
+  } catch (error) {
 
     console.log(error);
 
-    submissions.innerHTML="Failed to load.";
+    submissions.innerHTML = "<h3>Failed to load submissions.</h3>";
 
   }
 
 }
 
-window.approveTask = async function(id){
+window.approveTask = async function(id) {
 
-  try{
+  try {
 
-    const submissionRef=doc(db,"taskSubmissions",id);
+    const submissionRef = doc(db, "taskSubmissions", id);
 
-    const submission
+    const submissionSnap = await getDoc(submissionRef);
+
+    if (!submissionSnap.exists()) return;
+
+    const data = submissionSnap.data();
+
+    if (data.status === "approved") {
+
+      alert("Already approved.");
+
+      return;
+
+    }
+
+    const userRef = doc(db, "users", data.userId);
+
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) return;
+
+    const user = userSnap.data();
+
+    await updateDoc(userRef, {
+
+      balance: (user.balance || 0) + (data.reward || 0)
+
+    });
+
+   
