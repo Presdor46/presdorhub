@@ -3,17 +3,18 @@ import { auth, db } from "./firebase.js";
 import {
   onAuthStateChanged,
   signOut
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
   doc,
   getDoc
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const fullName = document.getElementById("fullName");
 const email = document.getElementById("email");
 const phone = document.getElementById("phone");
 const balance = document.getElementById("balance");
+const referralLink = document.getElementById("referralLink");
 const logoutBtn = document.getElementById("logoutBtn");
 
 onAuthStateChanged(auth, async (user) => {
@@ -26,7 +27,6 @@ onAuthStateChanged(auth, async (user) => {
   try {
 
     const userRef = doc(db, "users", user.uid);
-
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
@@ -41,6 +41,10 @@ onAuthStateChanged(auth, async (user) => {
     phone.textContent = data.phone || "-";
     balance.textContent = "₦" + (data.balance || 0);
 
+    referralLink.value =
+      "https://jocular-sorbet-ed8c51.netlify.app/register.html?ref=" +
+      (data.referralCode || "");
+
   } catch (error) {
 
     console.log(error);
@@ -50,13 +54,19 @@ onAuthStateChanged(auth, async (user) => {
 
 });
 
+window.copyReferral = function () {
+
+  navigator.clipboard.writeText(referralLink.value);
+
+  alert("Referral link copied successfully!");
+
+};
+
 logoutBtn.addEventListener("click", async () => {
 
   try {
 
     await signOut(auth);
-
-    alert("Logged out successfully.");
 
     window.location.href = "login.html";
 
