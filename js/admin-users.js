@@ -1,12 +1,10 @@
-import { auth, db } from "./firebase.js";
-
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { db } from "./firebase.js";
 
 import {
   collection,
-  getDocs
+  getDocs,
+  doc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const usersList = document.getElementById("usersList");
@@ -14,20 +12,9 @@ const search = document.getElementById("search");
 
 let allUsers = [];
 
-onAuthStateChanged(auth, async (user) => {
-
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  loadUsers();
-
-});
-
 async function loadUsers() {
 
-  usersList.innerHTML = "Loading users...";
+  usersList.innerHTML = "Loading...";
 
   try {
 
@@ -35,11 +22,11 @@ async function loadUsers() {
 
     allUsers = [];
 
-    snapshot.forEach((doc) => {
+    snapshot.forEach((user) => {
 
       allUsers.push({
-        id: doc.id,
-        ...doc.data()
+        id: user.id,
+        ...user.data()
       });
 
     });
@@ -50,7 +37,7 @@ async function loadUsers() {
 
     console.log(error);
 
-    usersList.innerHTML = "Failed to load users.";
+    usersList.innerHTML = "<h3>Failed to load users.</h3>";
 
   }
 
@@ -58,40 +45,46 @@ async function loadUsers() {
 
 function displayUsers(users) {
 
+  usersList.innerHTML = "";
+
   if (users.length === 0) {
 
-    usersList.innerHTML = "No users found.";
+    usersList.innerHTML = "<h3>No users found.</h3>";
 
     return;
 
   }
 
-  usersList.innerHTML = "";
-
   users.forEach((user) => {
 
     usersList.innerHTML += `
 
-    <div class="user">
+    <div class="card">
 
-      <div class="name">
-      ${user.fullName || "No Name"}
-      </div>
+      <h3>${user.fullName || "No Name"}</h3>
 
-      <div class="email">
-      ${user.email || ""}
-      </div>
+      <p><b>Email:</b> ${user.email || ""}</p>
 
-      <div class="balance">
-Balance: ₦${user.balance || 0}
-</div>
+      <p><b>Balance:</b> ₦${user.balance || 0}</p>
 
-<button onclick="editBalance('${user.id}', ${user.balance || 0})">
-💰 Edit Balance
-</button>
-<button onclick="toggleUserStatus('${user.id}', ${user.isSuspended === true})">
-${user.isSuspended ? "✅ Activate" : "🚫 Suspend"}
-</button>
+      <p><b>Referrals:</b> ${user.referrals || 0}</p>
+
+      <p><b>Admin:</b> ${user.isAdmin ? "Yes" : "No"}</p>
+
+      <button class="admin"
+      onclick="toggleAdmin('${user.id}', ${user.isAdmin})">
+
+      ${user.isAdmin ? "Remove Admin" : "Make Admin"}
+
+      </button>
+
+      <button class="block"
+      onclick="toggleBlock('${user.id}', ${user.blocked || false})">
+
+      ${user.blocked ? "Unblock User" : "Block User"}
+
+      </button>
+
     </div>
 
     `;
@@ -105,78 +98,59 @@ search.addEventListener("input", () => {
   const keyword = search.value.toLowerCase();
 
   const filtered = allUsers.filter(user =>
-
     (user.fullName || "").toLowerCase().includes(keyword) ||
-
     (user.email || "").toLowerCase().includes(keyword)
-
   );
 
   displayUsers(filtered);
 
 });
-import {
-  doc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+window.toggleAdmin = async function(id, isAdmin) {
 
-window.editBalance = async function(uid, currentBalance){
+  try {
 
-  const amount = prompt(
-    "Enter new balance:",
-    currentBalance
-  );
+    await updateDoc(doc(db, "users", id), {
 
-  if(amount === null) return;
+      isAdmin: !isAdmin
 
-  try{
+    });
 
-    await updateDoc(
-      doc(db,"users",uid),
-      {
-        balance:Number(amount)
-      }
-    );
-
-    alert("Balance updated successfully.");
+    alert(isAdmin ? "Admin Removed Successfully." : "User is now an Admin.");
 
     loadUsers();
 
-  }catch(error){
+  } catch (error) {
+
+    console.error(error);
 
     alert(error.message);
 
   }
 
-}
-import {
-  doc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+};
 
-window.toggleUserStatus = async function(uid, suspended){
+window.toggleBlock = async function(id, blocked) {
 
-  try{
+  try {
 
-    await updateDoc(
-      doc(db,"users",uid),
-      {
-        isSuspended: !suspended
-      }
-    );
+    await updateDoc(doc(db, "users", id), {
 
-    alert(
-      suspended
-      ? "User activated successfully."
-      : "User suspended successfully."
-    );
+      blocked: !blocked
+
+    });
+
+    alert(blocked ? "User Unblocked." : "User Blocked.");
 
     loadUsers();
 
-  }catch(error){
+  } catch (error) {
+
+    console.error(error);
 
     alert(error.message);
 
   }
 
-}
+};
+
+loadUsers();

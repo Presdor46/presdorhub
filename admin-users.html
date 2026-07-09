@@ -20,10 +20,8 @@ background:#2563EB;
 color:white;
 padding:20px;
 text-align:center;
-font-size:25px;
+font-size:28px;
 font-weight:bold;
-border-bottom-left-radius:20px;
-border-bottom-right-radius:20px;
 }
 
 .container{
@@ -32,14 +30,15 @@ padding:20px;
 
 input{
 width:100%;
-padding:12px;
-border-radius:10px;
-border:1px solid #ccc;
+padding:14px;
 margin-bottom:20px;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px;
 box-sizing:border-box;
 }
 
-.user{
+.card{
 background:white;
 padding:15px;
 margin-bottom:15px;
@@ -47,32 +46,25 @@ border-radius:12px;
 box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
-.name{
-font-size:18px;
-font-weight:bold;
-color:#2563EB;
-}
-
-.email{
-color:#666;
-margin:6px 0;
-}
-
-.balance{
-font-weight:bold;
-color:#16a34a;
-}
-
 button{
 width:100%;
 padding:12px;
 margin-top:10px;
 border:none;
-border-radius:10px;
-background:#2563EB;
-color:white;
+border-radius:8px;
+font-size:16px;
 font-weight:bold;
 cursor:pointer;
+}
+
+.admin{
+background:#2563EB;
+color:white;
+}
+
+.block{
+background:#dc2626;
+color:white;
 }
 
 </style>
@@ -92,11 +84,11 @@ cursor:pointer;
 <input
 type="text"
 id="search"
-placeholder="Search user...">
+placeholder="Search User...">
 
 <div id="usersList">
 
-Loading users...
+Loading...
 
 </div>
 
@@ -105,4 +97,5 @@ Loading users...
 <script type="module" src="js/admin-users.js"></script>
 
 </body>
+
 </html>
