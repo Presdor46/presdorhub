@@ -83,9 +83,15 @@ function displayUsers(users) {
       </div>
 
       <div class="balance">
-      Balance: ₦${user.balance || 0}
-      </div>
+Balance: ₦${user.balance || 0}
+</div>
 
+<button onclick="editBalance('${user.id}', ${user.balance || 0})">
+💰 Edit Balance
+</button>
+<button onclick="toggleUserStatus('${user.id}', ${user.isSuspended === true})">
+${user.isSuspended ? "✅ Activate" : "🚫 Suspend"}
+</button>
     </div>
 
     `;
@@ -109,3 +115,68 @@ search.addEventListener("input", () => {
   displayUsers(filtered);
 
 });
+import {
+  doc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+window.editBalance = async function(uid, currentBalance){
+
+  const amount = prompt(
+    "Enter new balance:",
+    currentBalance
+  );
+
+  if(amount === null) return;
+
+  try{
+
+    await updateDoc(
+      doc(db,"users",uid),
+      {
+        balance:Number(amount)
+      }
+    );
+
+    alert("Balance updated successfully.");
+
+    loadUsers();
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+}
+import {
+  doc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+window.toggleUserStatus = async function(uid, suspended){
+
+  try{
+
+    await updateDoc(
+      doc(db,"users",uid),
+      {
+        isSuspended: !suspended
+      }
+    );
+
+    alert(
+      suspended
+      ? "User activated successfully."
+      : "User suspended successfully."
+    );
+
+    loadUsers();
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+}
