@@ -15,6 +15,7 @@ const balance = document.getElementById("balance");
 const referrals = document.getElementById("referrals");
 const tasks = document.getElementById("tasks");
 const withdrawals = document.getElementById("withdrawals");
+const adminCard = document.getElementById("adminCard");
 
 onAuthStateChanged(auth, async (user) => {
 
@@ -50,7 +51,10 @@ onAuthStateChanged(auth, async (user) => {
     tasks.textContent = data.tasks || 0;
 
     withdrawals.textContent = data.withdrawals || 0;
-
+    
+if (data.isAdmin === true) {
+    adminCard.style.display = "block";
+}
   } catch (error) {
 
     console.error(error);
