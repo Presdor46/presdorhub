@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manage Users</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.header{
+background:#2563EB;
+color:white;
+padding:20px;
+text-align:center;
+font-size:25px;
+font-weight:bold;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+}
+
+.container{
+padding:20px;
+}
+
+input{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #ccc;
+margin-bottom:20px;
+box-sizing:border-box;
+}
+
+.user{
+background:white;
+padding:15px;
+margin-bottom:15px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.name{
+font-size:18px;
+font-weight:bold;
+color:#2563EB;
+}
+
+.email{
+color:#666;
+margin:6px 0;
+}
+
+.balance{
+font-weight:bold;
+color:#16a34a;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+background:#2563EB;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+👥 Manage Users
+
+</div>
+
+<div class="container">
+
+<input
+type="text"
+id="search"
+placeholder="Search user...">
+
+<div id="usersList">
+
+Loading users...
+
+</div>
+
+</div>
+
+<script type="module" src="js/admin-users.js"></script>
+
+</body>
+</html>

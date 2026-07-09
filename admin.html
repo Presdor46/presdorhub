@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Dashboard</title>
+<title>Admin Dashboard - Presdor Hub</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -20,10 +20,10 @@ background:#f5f7fb;
 
 .header{
 background:#2563EB;
-color:#fff;
+color:white;
 padding:20px;
 text-align:center;
-font-size:30px;
+font-size:26px;
 font-weight:bold;
 border-bottom-left-radius:20px;
 border-bottom-right-radius:20px;
@@ -40,40 +40,28 @@ gap:15px;
 }
 
 .card{
-background:#fff;
+background:white;
 padding:20px;
-border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
+border-radius:15px;
 text-align:center;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+cursor:pointer;
+transition:.3s;
 }
 
-.card h2{
-margin:0;
-font-size:30px;
+.card:hover{
+transform:scale(1.03);
+}
+
+.card h3{
+margin:10px 0;
 color:#2563EB;
 }
 
 .card p{
-margin-top:10px;
-font-weight:bold;
-}
-
-.menu{
-margin-top:20px;
-display:flex;
-flex-direction:column;
-gap:12px;
-}
-
-.menu a{
-display:block;
-padding:15px;
-background:#2563EB;
-color:white;
-text-decoration:none;
-text-align:center;
-border-radius:10px;
-font-weight:bold;
+margin:0;
+font-size:14px;
+color:#555;
 }
 
 </style>
@@ -83,60 +71,60 @@ font-weight:bold;
 <body>
 
 <div class="header">
-Admin Dashboard
+
+👑 ADMIN PANEL
+
 </div>
 
 <div class="container">
 
 <div class="grid">
 
-<div class="card">
-<h2 id="totalUsers">0</h2>
-<p>Total Users</p>
+<div class="card" onclick="location.href='users.html'">
+<h3>👥 Users</h3>
+<p>Manage Users</p>
 </div>
 
-<div class="card">
-<h2 id="pendingDeposits">0</h2>
-<p>Pending Deposits</p>
+<div class="card" onclick="location.href='deposits.html'">
+<h3>💰 Deposits</h3>
+<p>Approve Deposits</p>
 </div>
 
-<div class="card">
-<h2 id="pendingWithdrawals">0</h2>
-<p>Pending Withdrawals</p>
+<div class="card" onclick="location.href='withdrawals.html'">
+<h3>💸 Withdrawals</h3>
+<p>Approve Withdrawals</p>
 </div>
 
-<div class="card">
-<h2 id="totalTransactions">0</h2>
-<p>Total Transactions</p>
+<div class="card" onclick="location.href='tasks.html'">
+<h3>📋 Tasks</h3>
+<p>Manage Tasks</p>
+</div>
+
+<div class="card" onclick="location.href='affiliate.html'">
+<h3>💼 Affiliate</h3>
+<p>Manage Offers</p>
+</div>
+
+<div class="card" onclick="location.href='notifications.html'">
+<h3>📢 Notifications</h3>
+<p>Send Notice</p>
+</div>
+
+<div class="card" onclick="location.href='reports.html'">
+<h3>📊 Reports</h3>
+<p>Statistics</p>
+</div>
+
+<div class="card" onclick="location.href='settings.html'">
+<h3>⚙️ Settings</h3>
+<p>App Settings</p>
 </div>
 
 </div>
 
-<div class="menu">
-
-<a href="admin-deposits.html">
-Manage Deposits
-</a>
-
-<a href="admin-withdraw.html">
-Manage Withdrawals
-</a>
-
-<a href="users.html">
-Manage Users
-</a>
-
-<a href="admin-tasks.html">
-Manage Tasks
-</a>
-
 </div>
 
-</div>
-
-<script type="module" src="js/admin-auth.js"></script>
-<script type="module" src="js/admin-dashboard.js"></script>
+<script type="module" src="js/admin.js"></script>
 
 </body>
-
 </html>

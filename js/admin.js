@@ -1,117 +1,47 @@
-import { db } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import {
-  collection,
-  query,
-  where,
-  getDocs,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
   doc,
-  getDoc,
-  updateDoc,
-  addDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const depositList = document.getElementById("depositList");
+onAuthStateChanged(auth, async (user) => {
 
-async function loadDeposits() {
-
-  if (!depositList) return;
-
-  depositList.innerHTML = "Loading...";
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
 
   try {
 
-    const q = query(
-      collection(db, "deposits"),
-      where("status", "==", "pending")
-    );
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
 
-    const snapshot = await getDocs(q);
-
-    depositList.innerHTML = "";
-
-    if (snapshot.empty) {
-      depositList.innerHTML = "<h3>No Pending Deposits</h3>";
+    if (!userSnap.exists()) {
+      alert("User data not found.");
+      window.location.href = "dashboard.html";
       return;
     }
 
-    snapshot.forEach((depositDoc) => {
+    const data = userSnap.data();
 
-      const data = depositDoc.data();
+    if (data.isAdmin !== true) {
+      alert("Access denied. Admin only.");
+      window.location.href = "dashboard.html";
+      return;
+    }
 
-      const card = document.createElement("div");
-      card.className = "card";
-
-      card.innerHTML = `
-        <p><strong>Name:</strong> ${data.sender}</p>
-        <p><strong>Amount:</strong> ₦${data.amount}</p>
-        <p><strong>Reference:</strong> ${data.reference || "-"}</p>
-
-        <button data-id="${depositDoc.id}"
-                data-uid="${data.uid}"
-                data-amount="${data.amount}">
-          Approve Deposit
-        </button>
-      `;
-
-      const btn = card.querySelector("button");
-
-      btn.addEventListener("click", async () => {
-
-        try {
-
-          const userRef = doc(db, "users", data.uid);
-
-          const userSnap = await getDoc(userRef);
-
-          if (!userSnap.exists()) {
-            alert("User not found");
-            return;
-          }
-
-          const user = userSnap.data();
-
-          await updateDoc(userRef, {
-            balance: (user.balance || 0) + Number(data.amount)
-          });
-
-          await updateDoc(doc(db, "deposits", depositDoc.id), {
-            status: "approved"
-          });
-
-          await addDoc(collection(db, "transactions"), {
-            uid: data.uid,
-            type: "Deposit",
-            amount: Number(data.amount),
-            status: "Completed",
-            createdAt: serverTimestamp()
-          });
-
-          alert("Deposit Approved Successfully");
-
-          loadDeposits();
-
-        } catch (error) {
-
-          alert(error.message);
-
-        }
-
-      });
-
-      depositList.appendChild(card);
-
-    });
+    console.log("Admin access granted.");
 
   } catch (error) {
 
-    depositList.innerHTML = "<h3>" + error.message + "</h3>";
-
-    console.log(error);
+    console.error(error);
+    alert(error.message);
 
   }
 
-}
-
-loadDeposits();
+});
