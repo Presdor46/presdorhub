@@ -2,28 +2,72 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Transaction History</title>
 
-<link rel="stylesheet" href="css/style.css">
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.header{
+background:#2563EB;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:white;
+padding:15px;
+margin-bottom:15px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.amount{
+font-size:20px;
+font-weight:bold;
+color:#16a34a;
+}
+
+.status{
+color:#2563EB;
+font-weight:bold;
+}
+
+</style>
+
 </head>
 
 <body>
 
 <div class="header">
-<h2>Transaction History</h2>
+
+Transaction History
+
 </div>
 
-<div id="historyList">
+<div class="container">
+
+<div id="history">
+
 Loading...
+
 </div>
 
-<div class="bottom-nav">
-<a href="dashboard.html">🏠 Home</a>
-<a href="deposit.html">💰 Deposit</a>
-<a href="withdraw.html">💸 Withdraw</a>
-<a href="profile.html">👤 Profile</a>
 </div>
 
 <script type="module" src="js/history.js"></script>

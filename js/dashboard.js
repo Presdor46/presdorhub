@@ -9,40 +9,56 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+const loader = document.getElementById("loader");
 const welcome = document.getElementById("welcome");
 const balance = document.getElementById("balance");
+const referrals = document.getElementById("referrals");
+const tasks = document.getElementById("tasks");
+const withdrawals = document.getElementById("withdrawals");
 
 onAuthStateChanged(auth, async (user) => {
 
-    if (!user) {
-        window.location.href = "login.html";
-        return;
-    }
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
 
-    try {
+  try {
 
-        const docRef = doc(db, "users", user.uid);
+    const userRef = doc(db, "users", user.uid);
 
-        const docSnap = await getDoc(docRef);
+    const userSnap = await getDoc(userRef);
 
-        if (docSnap.exists()) {
+    if (!userSnap.exists()) {
 
-            const data = docSnap.data();
+      alert("User not found.");
 
-            welcome.innerHTML = "Welcome " + data.fullName;
-            balance.innerHTML = "₦" + (data.balance || 0);
+      loader.style.display = "none";
 
-        } else {
-
-            alert("User account not found.");
-
-        }
-
-    } catch (error) {
-
-        console.log(error);
-        alert(error.message);
+      return;
 
     }
+
+    const data = userSnap.data();
+
+    welcome.textContent = "Welcome, " + (data.fullName || "User");
+
+    balance.textContent = "₦" + (data.balance || 0);
+
+    referrals.textContent = data.referrals || 0;
+
+    tasks.textContent = data.tasks || 0;
+
+    withdrawals.textContent = data.withdrawals || 0;
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(error.message);
+
+  }
+
+  loader.style.display = "none";
 
 });

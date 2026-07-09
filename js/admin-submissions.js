@@ -1,11 +1,14 @@
 import { db } from "./firebase.js";
 
 import {
+  import {
   collection,
   getDocs,
   doc,
   getDoc,
-  updateDoc
+  updateDoc,
+  addDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const submissions = document.getElementById("submissions");
@@ -118,7 +121,26 @@ window.approveTask = async function(id) {
     await updateDoc(userRef, {
       balance: currentBalance + reward
     });
+    await addDoc(collection(db, "transactions"), {
 
+  userId: data.userId,
+
+  title: "Task Reward",
+
+  amount: reward,
+
+  type: "credit",
+
+  status: "completed",
+
+  createdAt: serverTimestamp()
+
+});
+import {
+  addDoc,
+  collection,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     await updateDoc(submissionRef, {
       status: "approved"
     });
@@ -144,6 +166,14 @@ window.rejectTask = async function(id) {
     await updateDoc(doc(db, "taskSubmissions", id), {
       status: "rejected"
     });
+    await addDoc(collection(db, "transactions"), {
+  userId: data.userId,
+  title: "Task Reward",
+  amount: reward,
+  type: "credit",
+  status: "completed",
+  createdAt: serverTimestamp()
+});
 
     alert("Task Rejected.");
 

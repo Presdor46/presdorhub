@@ -2,16 +2,16 @@ import { auth, db } from "./firebase.js";
 
 import {
   onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
   collection,
   query,
   where,
   getDocs
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const historyList = document.getElementById("historyList");
+const history = document.getElementById("history");
 
 onAuthStateChanged(auth, async (user) => {
 
@@ -20,65 +20,65 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  historyList.innerHTML = "Loading...";
+  loadHistory(user.uid);
+
+});
+
+async function loadHistory(uid) {
+
+  history.innerHTML = "Loading...";
 
   try {
 
     const q = query(
       collection(db, "transactions"),
-      where("uid", "==", user.uid)
+      where("userId", "==", uid)
     );
 
     const snapshot = await getDocs(q);
 
-    historyList.innerHTML = "";
-
     if (snapshot.empty) {
-      historyList.innerHTML = `
-        <div class="card">
-          <h3>No Transactions Yet</h3>
-        </div>
-      `;
+      history.innerHTML = "<h3>No Transactions Found.</h3>";
       return;
     }
 
-    snapshot.forEach((transaction) => {
+    history.innerHTML = "";
 
-      const data = transaction.data();
+    snapshot.forEach((doc) => {
 
-      let date = "-";
+      const data = doc.data();
 
-      if (data.createdAt) {
-        date = new Date(data.createdAt.seconds * 1000).toLocaleString();
-      }
+      history.innerHTML += `
 
-      historyList.innerHTML += `
-        <div class="card">
+      <div class="card">
 
-          <h3>${data.type}</h3>
+        <h3>${data.title || "Transaction"}</h3>
 
-          <p><strong>Amount:</strong> ₦${data.amount}</p>
+        <p class="amount">
+        ₦${data.amount || 0}
+        </p>
 
-          <p><strong>Status:</strong> ${data.status}</p>
+        <p class="status">
+        ${data.status || "Completed"}
+        </p>
 
-          <p><strong>Date:</strong> ${date}</p>
+        <p>
+        ${data.date || ""}
+        </p>
 
-        </div>
+      </div>
+
       `;
 
     });
 
   } catch (error) {
 
-    historyList.innerHTML = `
-      <div class="card">
-        <h3>Error</h3>
-        <p>${error.message}</p>
-      </div>
-    `;
-
     console.log(error);
+
+    history.innerHTML =
+    "<h3>Failed to load history.</h3>";
 
   }
 
-});
+}
