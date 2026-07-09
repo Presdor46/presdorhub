@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Deposit</title>
-
-<link rel="stylesheet" href="css/style.css">
 
 <style>
 
@@ -23,10 +20,8 @@ background:#2563EB;
 color:white;
 padding:20px;
 text-align:center;
-font-size:30px;
+font-size:28px;
 font-weight:bold;
-border-bottom-left-radius:20px;
-border-bottom-right-radius:20px;
 }
 
 .container{
@@ -40,44 +35,33 @@ border-radius:15px;
 box-shadow:0 2px 10px rgba(0,0,0,.1);
 }
 
+.bank{
+background:#eef4ff;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
 input{
 width:100%;
 padding:14px;
-margin:12px 0;
+margin-bottom:15px;
 border:1px solid #ccc;
-border-radius:8px;
-font-size:16px;
+border-radius:10px;
 box-sizing:border-box;
+font-size:16px;
 }
 
 button{
 width:100%;
-padding:14px;
+padding:15px;
 background:#2563EB;
 color:white;
 border:none;
-border-radius:8px;
-font-size:17px;
+border-radius:10px;
+font-size:18px;
 font-weight:bold;
 cursor:pointer;
-}
-
-.bottom-nav{
-position:fixed;
-left:0;
-right:0;
-bottom:0;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:15px;
-box-shadow:0 -2px 8px rgba(0,0,0,.1);
-}
-
-.bottom-nav a{
-text-decoration:none;
-font-weight:bold;
-color:#2563EB;
 }
 
 </style>
@@ -87,50 +71,53 @@ color:#2563EB;
 <body>
 
 <div class="header">
-Deposit Funds
+
+Deposit
+
 </div>
 
 <div class="container">
 
 <div class="card">
 
+<div class="bank">
+
+<h3>Bank Details</h3>
+
+<p><b>Bank:</b> OPay</p>
+
+<p><b>Account Name:</b> ABBA MUHAMMAD</p>
+
+<p><b>Account Number:</b> 8134567890</p>
+
+</div>
+
 <input
 type="number"
 id="amount"
-placeholder="Enter Deposit Amount">
+placeholder="Amount Paid">
 
 <input
 type="text"
-id="sender"
+id="senderName"
 placeholder="Sender Name">
 
 <input
 type="text"
 id="reference"
-placeholder="Payment Reference (Optional)">
+placeholder="Reference (Optional)">
 
 <button id="depositBtn">
-Submit Deposit
+
+I've Paid
+
 </button>
 
 </div>
 
 </div>
 
-<div class="bottom-nav">
+<script type="module" src="js/deposit.js"></script>
 
-<a href="dashboard.html">🏠 Home</a>
-
-<a href="tasks.html">📋 Tasks</a>
-
-<a href="deposit.html">💰 Deposit</a>
-
-<a href="profile.html">👤 Profile</a>
-
-</div>
-
-<script type="module" src="js/deposit.js"><
-  
 </body>
-
 </html>

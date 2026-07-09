@@ -2,17 +2,14 @@ import { auth, db } from "./firebase.js";
 
 import {
   onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
   collection,
   addDoc,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const amount = document.getElementById("amount");
-const sender = document.getElementById("sender");
-const reference = document.getElementById("reference");
 const depositBtn = document.getElementById("depositBtn");
 
 let currentUser = null;
@@ -30,37 +27,59 @@ onAuthStateChanged(auth, (user) => {
 
 depositBtn.addEventListener("click", async () => {
 
-  if (!currentUser) {
-    alert("Please login first.");
+  const amount = Number(document.getElementById("amount").value);
+
+  const senderName = document.getElementById("senderName").value.trim();
+
+  const reference = document.getElementById("reference").value.trim();
+
+  if (!amount || !senderName) {
+
+    alert("Please fill all required fields.");
+
     return;
+
   }
 
-  if (amount.value === "" || sender.value.trim() === "") {
-    alert("Please fill all required fields.");
+  if (amount < 1000) {
+
+    alert("Minimum deposit is ₦1000.");
+
     return;
+
   }
 
   try {
 
-    await addDoc(collection(db, "deposits"), {
-      uid: currentUser.uid,
-      sender: sender.value.trim(),
-      amount: Number(amount.value),
-      reference: reference.value.trim(),
+    await addDoc(collection(db, "depositRequests"), {
+
+      userId: currentUser.uid,
+
+      amount: amount,
+
+      senderName: senderName,
+
+      reference: reference,
+
       status: "pending",
+
       createdAt: serverTimestamp()
+
     });
 
     alert("Deposit request submitted successfully.");
 
-    amount.value = "";
-    sender.value = "";
-    reference.value = "";
+    document.getElementById("amount").value = "";
+
+    document.getElementById("senderName").value = "";
+
+    document.getElementById("reference").value = "";
 
   } catch (error) {
 
-    console.log(error);
     alert(error.message);
+
+    console.log(error);
 
   }
 
