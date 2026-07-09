@@ -3,10 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Referral - Presdor Hub</title>
-
-<link rel="stylesheet" href="css/style.css">
 
 <style>
 
@@ -21,8 +18,8 @@ background:#2563EB;
 color:white;
 padding:20px;
 text-align:center;
-border-bottom-left-radius:20px;
-border-bottom-right-radius:20px;
+font-size:28px;
+font-weight:bold;
 }
 
 .container{
@@ -33,54 +30,35 @@ padding:20px;
 background:white;
 padding:20px;
 border-radius:15px;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
+box-shadow:0 2px 8px rgba(0,0,0,.1);
 margin-bottom:20px;
-}
-
-.card h3{
-margin-top:0;
-color:#2563EB;
-}
-
-.stat{
-font-size:30px;
-font-weight:bold;
-color:#16a34a;
 }
 
 input{
 width:100%;
 padding:12px;
-border:1px solid #ddd;
+border:1px solid #ccc;
 border-radius:10px;
-margin-top:10px;
-box-sizing:border-box;
+margin:10px 0;
 }
 
 button{
 width:100%;
-padding:15px;
-margin-top:10px;
-border:none;
-border-radius:10px;
+padding:14px;
 background:#2563EB;
 color:white;
-font-size:16px;
+border:none;
+border-radius:10px;
+font-size:17px;
 font-weight:bold;
 cursor:pointer;
 }
 
-.share{
-background:#16a34a;
-}
-
-.history{
-margin-top:20px;
-}
-
-.history-item{
-padding:10px;
-border-bottom:1px solid #eee;
+.stat{
+font-size:22px;
+font-weight:bold;
+color:#2563EB;
+margin-top:10px;
 }
 
 </style>
@@ -90,58 +68,42 @@ border-bottom:1px solid #eee;
 <body>
 
 <div class="header">
-<h1>Referral Center</h1>
-<p>Invite friends and earn rewards</p>
+Referral Center
 </div>
 
 <div class="container">
 
 <div class="card">
 
-<h3>Total Referrals</h3>
-
-<div class="stat" id="totalReferrals">0</div>
-
-</div>
-
-<div class="card">
-
-<h3>Referral Bonus</h3>
-
-<div class="stat" id="referralBonus">₦0</div>
-
-</div>
-
-<div class="card">
-
-<h3>Your Referral Link</h3>
+<h3>My Referral Link</h3>
 
 <input
-id="referralLink"
+type="text"
+id="refLink"
 readonly>
 
-<button onclick="copyReferral()">
-Copy Referral Link
-</button>
-
-<button
-class="share"
-onclick="shareWhatsApp()">
-
-Share on WhatsApp
-
+<button onclick="copyLink()">
+📋 Copy Referral Link
 </button>
 
 </div>
 
-<div class="card history">
+<div class="card">
 
-<h3>Referral History</h3>
+<h3>Total Referrals</h3>
 
-<div id="history">
+<div class="stat" id="totalReferrals">
+0
+</div>
 
-No referrals yet.
+</div>
 
+<div class="card">
+
+<h3>Referral Earnings</h3>
+
+<div class="stat" id="referralEarnings">
+₦0
 </div>
 
 </div>

@@ -9,10 +9,11 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+const refLink = document.getElementById("refLink");
 const totalReferrals = document.getElementById("totalReferrals");
-const referralBonus = document.getElementById("referralBonus");
-const referralLink = document.getElementById("referralLink");
-const history = document.getElementById("history");
+const referralEarnings = document.getElementById("referralEarnings");
+
+let myLink = "";
 
 onAuthStateChanged(auth, async (user) => {
 
@@ -27,58 +28,38 @@ onAuthStateChanged(auth, async (user) => {
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
-      alert("User data not found.");
+      alert("User not found.");
       return;
     }
 
     const data = userSnap.data();
 
-    totalReferrals.textContent = data.totalReferrals || 0;
+    const code = data.myReferralCode || user.uid.substring(0,8).toUpperCase();
 
-    referralBonus.textContent =
-      "₦" + (data.referralBonus || 0);
+    myLink = window.location.origin + "/register.html?ref=" + code;
 
-    const code =
-      data.referralCode || user.uid.substring(0,8).toUpperCase();
+    refLink.value = myLink;
 
-    referralLink.value =
-      "https://jocular-sorbet-ed8c51.netlify.app/register.html?ref=" + code;
+    totalReferrals.textContent = data.referrals || 0;
 
-    history.innerHTML = `
-      <div class="history-item">
-        Referral history will appear here.
-      </div>
-    `;
+    const earnings = (data.referrals || 0) * 200;
+
+    referralEarnings.textContent = "₦" + earnings;
 
   } catch (error) {
 
-    console.log(error);
     alert(error.message);
+
+    console.log(error);
 
   }
 
 });
 
-window.copyReferral = function () {
+window.copyLink = function () {
 
-  navigator.clipboard.writeText(referralLink.value);
+  navigator.clipboard.writeText(myLink);
 
-  alert("Referral link copied successfully!");
+  alert("Referral Link Copied Successfully!");
 
-}
-
-window.shareWhatsApp = function () {
-
-  const message =
-`Join Presdor Hub and start earning today!
-
-Register using my referral link:
-
-${referralLink.value}`;
-
-  window.open(
-`https://wa.me/?text=${encodeURIComponent(message)}`,
-"_blank"
-  );
-
-}
+};
