@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Referral</title>
+<title>Referral - Presdor Hub</title>
+
+<link rel="stylesheet" href="css/style.css">
 
 <style>
 
@@ -21,8 +21,6 @@ background:#2563EB;
 color:white;
 padding:20px;
 text-align:center;
-font-size:28px;
-font-weight:bold;
 border-bottom-left-radius:20px;
 border-bottom-right-radius:20px;
 }
@@ -35,50 +33,54 @@ padding:20px;
 background:white;
 padding:20px;
 border-radius:15px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
+box-shadow:0 2px 10px rgba(0,0,0,.1);
 margin-bottom:20px;
+}
+
+.card h3{
+margin-top:0;
+color:#2563EB;
+}
+
+.stat{
+font-size:30px;
+font-weight:bold;
+color:#16a34a;
 }
 
 input{
 width:100%;
-padding:14px;
-border:1px solid #ccc;
-border-radius:8px;
-font-size:16px;
+padding:12px;
+border:1px solid #ddd;
+border-radius:10px;
+margin-top:10px;
 box-sizing:border-box;
 }
 
 button{
 width:100%;
-padding:14px;
-margin-top:15px;
+padding:15px;
+margin-top:10px;
+border:none;
+border-radius:10px;
 background:#2563EB;
 color:white;
-border:none;
-border-radius:8px;
 font-size:16px;
 font-weight:bold;
 cursor:pointer;
 }
 
-.stat{
-background:white;
-padding:15px;
-margin-top:15px;
-border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
-text-align:center;
+.share{
+background:#16a34a;
 }
 
-.stat h2{
-margin:0;
-color:#2563EB;
-font-size:30px;
+.history{
+margin-top:20px;
 }
 
-.stat p{
-margin-top:8px;
-font-weight:bold;
+.history-item{
+padding:10px;
+border-bottom:1px solid #eee;
 }
 
 </style>
@@ -88,43 +90,59 @@ font-weight:bold;
 <body>
 
 <div class="header">
-
-Referral System
-
+<h1>Referral Center</h1>
+<p>Invite friends and earn rewards</p>
 </div>
 
 <div class="container">
 
 <div class="card">
 
-<label>Your Referral Code</label>
+<h3>Total Referrals</h3>
+
+<div class="stat" id="totalReferrals">0</div>
+
+</div>
+
+<div class="card">
+
+<h3>Referral Bonus</h3>
+
+<div class="stat" id="referralBonus">₦0</div>
+
+</div>
+
+<div class="card">
+
+<h3>Your Referral Link</h3>
 
 <input
-type="text"
-id="referralCode"
+id="referralLink"
 readonly>
 
-<button id="copyBtn">
+<button onclick="copyReferral()">
+Copy Referral Link
+</button>
 
-Copy Referral Code
+<button
+class="share"
+onclick="shareWhatsApp()">
+
+Share on WhatsApp
 
 </button>
 
 </div>
 
-<div class="stat">
+<div class="card history">
 
-<h2 id="totalReferrals">0</h2>
+<h3>Referral History</h3>
 
-<p>Total Referrals</p>
+<div id="history">
+
+No referrals yet.
 
 </div>
-
-<div class="stat">
-
-<h2 id="totalBonus">₦0</h2>
-
-<p>Total Referral Bonus</p>
 
 </div>
 
@@ -133,5 +151,4 @@ Copy Referral Code
 <script type="module" src="js/referral.js"></script>
 
 </body>
-
 </html>

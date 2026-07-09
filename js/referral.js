@@ -1,17 +1,18 @@
 import { auth, db } from "./firebase.js";
 
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
   doc,
-  getDoc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const referralCode = document.getElementById("referralCode");
 const totalReferrals = document.getElementById("totalReferrals");
-const totalBonus = document.getElementById("totalBonus");
-const copyBtn = document.getElementById("copyBtn");
+const referralBonus = document.getElementById("referralBonus");
+const referralLink = document.getElementById("referralLink");
+const history = document.getElementById("history");
 
 onAuthStateChanged(auth, async (user) => {
 
@@ -23,59 +24,61 @@ onAuthStateChanged(auth, async (user) => {
   try {
 
     const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
 
-    const snap = await getDoc(userRef);
-
-    if (!snap.exists()) return;
-
-    let data = snap.data();
-
-    let code = data.referralCode;
-
-    if (!code) {
-
-      code = "PRES" + user.uid.substring(0,6).toUpperCase();
-
-      await updateDoc(userRef,{
-        referralCode: code
-      });
-
-      data.referralCode = code;
-
+    if (!userSnap.exists()) {
+      alert("User data not found.");
+      return;
     }
 
-    referralCode.value = data.referralCode;
+    const data = userSnap.data();
 
-    totalReferrals.textContent = data.referrals || 0;
+    totalReferrals.textContent = data.totalReferrals || 0;
 
-    totalBonus.textContent = "₦" + ((data.referrals || 0) * 500);
+    referralBonus.textContent =
+      "₦" + (data.referralBonus || 0);
 
-  } catch(error){
+    const code =
+      data.referralCode || user.uid.substring(0,8).toUpperCase();
+
+    referralLink.value =
+      "https://jocular-sorbet-ed8c51.netlify.app/register.html?ref=" + code;
+
+    history.innerHTML = `
+      <div class="history-item">
+        Referral history will appear here.
+      </div>
+    `;
+
+  } catch (error) {
 
     console.log(error);
-
     alert(error.message);
 
   }
 
 });
 
-copyBtn.addEventListener("click", async ()=>{
+window.copyReferral = function () {
 
-  try{
+  navigator.clipboard.writeText(referralLink.value);
 
-    await navigator.clipboard.writeText(referralCode.value);
+  alert("Referral link copied successfully!");
 
-    alert("Referral Code Copied Successfully!");
+}
 
-  }catch{
+window.shareWhatsApp = function () {
 
-    referralCode.select();
+  const message =
+`Join Presdor Hub and start earning today!
 
-    document.execCommand("copy");
+Register using my referral link:
 
-    alert("Referral Code Copied!");
+${referralLink.value}`;
 
-  }
+  window.open(
+`https://wa.me/?text=${encodeURIComponent(message)}`,
+"_blank"
+  );
 
-});
+}
