@@ -1,22 +1,17 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-
-import { getAuth } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-
-import { getFirestore } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCtsCuAKEGrxFb1sDeG5mt2Fz_46Rzo_14",
-  authDomain: "presdor-hub-v2.firebaseapp.com",
-  projectId: "presdor-hub-v2",
-  storageBucket: "presdor-hub-v2.firebasestorage.app",
-  messagingSenderId: "599618631423",
-  appId: "1:599618631423:web:da48a76c7d460c46a77eca"
+  apiKey: "AIzaSyDR0yxjLv-SM_LXTZHRjA8SLrG3fOShGRk",
+  authDomain: "presdor-hub.firebaseapp.com",
+  projectId: "presdor-hub",
+  storageBucket: "presdor-hub.firebasestorage.app",
+  messagingSenderId: "386435505116",
+  appId: "1:386435505116:web:e79a285877ebe8bc9a0d19"
 };
 
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
-
-const db = getFirestore(app);
-
-export { auth, db };
+export const auth = getAuth(app);
+export const db = getFirestore(app);

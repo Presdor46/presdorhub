@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Presdor Hub</title>
+
+<meta name="description" content="Presdor Hub - Work Smart, Earn Daily">
+
+<meta name="theme-color" content="#2563eb">
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="icon" href="icon-192.png">
+
+<link rel="apple-touch-icon" href="icon-192.png">
 
 <link rel="stylesheet" href="css/style.css">
 
 </head>
+
 <body>
 
 <div class="header">
@@ -36,6 +49,14 @@ Complete simple online tasks, invite friends and earn money every day.
 </a>
 
 </div>
+
+<script>
+if ('serviceWorker' in navigator) {
+window.addEventListener('load', () => {
+navigator.serviceWorker.register('service-worker.js');
+});
+}
+</script>
 
 </body>
 </html>
