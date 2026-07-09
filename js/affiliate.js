@@ -20,7 +20,15 @@ async function loadOffers() {
     snapshot.forEach((doc) => {
 
       const data = doc.data();
-
+if (
+  !data.title ||
+  !data.network ||
+  !data.category ||
+  !data.reward ||
+  !data.url
+) {
+  return;
+}
       if (data.status !== true) return;
 
       offers.innerHTML += `

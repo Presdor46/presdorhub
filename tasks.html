@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Daily Tasks</title>
-
-<link rel="stylesheet" href="css/style.css">
+<title>Tasks - Presdor Hub</title>
 
 <style>
 
@@ -20,56 +17,48 @@ background:#f5f7fb;
 
 .header{
 background:#2563EB;
-color:#fff;
+color:white;
 padding:20px;
 text-align:center;
-font-size:32px;
+font-size:28px;
 font-weight:bold;
 border-bottom-left-radius:20px;
 border-bottom-right-radius:20px;
 }
 
-#taskList{
+.container{
 padding:15px;
 }
 
-.card{
-background:#fff;
+.task{
+background:white;
 padding:15px;
-margin-bottom:15px;
-border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
+margin-bottom:20px;
+border-radius:15px;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+.task h2{
+margin:0 0 10px;
+}
+
+.reward{
+color:green;
+font-size:20px;
+font-weight:bold;
 }
 
 button{
 width:100%;
-padding:12px;
-margin-top:10px;
-background:#2563EB;
-color:#fff;
+padding:14px;
+margin-top:15px;
 border:none;
-border-radius:8px;
-font-size:16px;
+border-radius:10px;
+background:#2563EB;
+color:white;
+font-size:17px;
 font-weight:bold;
 cursor:pointer;
-}
-
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-display:flex;
-justify-content:space-around;
-background:#fff;
-padding:12px;
-box-shadow:0 -2px 8px rgba(0,0,0,.1);
-}
-
-.bottom-nav a{
-text-decoration:none;
-font-weight:bold;
-color:#2563EB;
 }
 
 </style>
@@ -79,31 +68,20 @@ color:#2563EB;
 <body>
 
 <div class="header">
-
-Daily Tasks
-
+Available Tasks
 </div>
 
-<div id="taskList">
+<div class="container">
 
-Loading...
+<div id="tasks">
+
+Loading Tasks...
 
 </div>
-
-<div class="bottom-nav">
-
-<a href="dashboard.html">🏠 Home</a>
-
-<a href="tasks.html">📋 Tasks</a>
-
-<a href="deposit.html">💰 Deposit</a>
-
-<a href="profile.html">👤 Profile</a>
 
 </div>
 
 <script type="module" src="js/tasks.js"></script>
 
 </body>
-
 </html>
