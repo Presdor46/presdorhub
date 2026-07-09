@@ -1,8 +1,12 @@
-import { db } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import {
   collection,
-  getDocs
+  getDocs,
+  addDoc,
+  query,
+  where,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const tasksContainer = document.getElementById("tasks");
@@ -17,18 +21,11 @@ async function loadTasks() {
 
     tasksContainer.innerHTML = "";
 
-    snapshot.forEach((doc) => {
+    snapshot.forEach((taskDoc) => {
 
-      const data = doc.data();
+      const data = taskDoc.data();
 
       if (data.status !== true) return;
-
-      if (
-        !data.title ||
-        !data.instructions ||
-        !data.reward ||
-        !data.link
-      ) return;
 
       tasksContainer.innerHTML += `
 
@@ -40,8 +37,14 @@ async function loadTasks() {
 
         <p class="reward">Reward: ₦${data.reward}</p>
 
-        <button onclick="window.open('${data.link}','_blank')">
-          🚀 Start Task
+        <button class="startBtn"
+        onclick="window.open('${data.link}','_blank')">
+        🚀 Start Task
+        </button>
+
+        <button class="submitBtn"
+        onclick="submitTask('${taskDoc.id}','${data.title}',${data.reward})">
+        ✅ Submit Task
         </button>
 
       </div>
@@ -50,17 +53,70 @@ async function loadTasks() {
 
     });
 
-    if (tasksContainer.innerHTML === "") {
-      tasksContainer.innerHTML =
-        "<h3>No Tasks Available.</h3>";
-    }
-
   } catch (error) {
 
     console.log(error);
 
-    tasksContainer.innerHTML =
-      "<h3>Failed to load tasks.</h3>";
+    tasksContainer.innerHTML = "Failed to load tasks.";
+
+  }
+
+}
+
+window.submitTask = async function(taskId, taskTitle, reward){
+
+  const user = auth.currentUser;
+
+  if(!user){
+
+    alert("Please login first.");
+
+    return;
+
+  }
+
+  try{
+
+    const q = query(
+      collection(db,"taskSubmissions"),
+      where("userId","==",user.uid),
+      where("taskId","==",taskId)
+    );
+
+    const existing = await getDocs(q);
+
+    if(!existing.empty){
+
+      alert("You have already submitted this task.");
+
+      return;
+
+    }
+
+    await addDoc(
+      collection(db,"taskSubmissions"),
+      {
+
+        userId:user.uid,
+
+        taskId:taskId,
+
+        taskTitle:taskTitle,
+
+        reward:reward,
+
+        status:"pending",
+
+        submittedAt:serverTimestamp()
+
+      }
+    );
+
+    alert("Task submitted successfully. Waiting for admin approval.");
+
+  }catch(error){
+
+    alert(error.message);
 
   }
 
