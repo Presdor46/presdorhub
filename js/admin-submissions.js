@@ -1,7 +1,6 @@
 import { db } from "./firebase.js";
 
 import {
-  import {
   collection,
   getDocs,
   doc,
@@ -22,7 +21,7 @@ async function loadSubmissions() {
     const snapshot = await getDocs(collection(db, "taskSubmissions"));
 
     if (snapshot.empty) {
-      submissions.innerHTML = "<h3>No submissions found.</h3>";
+      submissions.innerHTML = "<h3>No task submissions.</h3>";
       return;
     }
 
@@ -36,37 +35,42 @@ async function loadSubmissions() {
 
       try {
 
-        const userRef = doc(db, "users", data.userId);
-        const userSnap = await getDoc(userRef);
+        const userSnap = await getDoc(doc(db, "users", data.userId));
 
         if (userSnap.exists()) {
           fullName = userSnap.data().fullName || "Unknown User";
         }
 
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
 
       submissions.innerHTML += `
-        <div class="card">
 
-          <h3>${data.taskTitle}</h3>
+      <div class="card">
 
-          <p><strong>User:</strong> ${fullName}</p>
+        <h3>${data.taskTitle}</h3>
 
-          <p><strong>Reward:</strong> ₦${data.reward}</p>
+        <p><b>User:</b> ${fullName}</p>
 
-          <p><strong>Status:</strong> ${data.status}</p>
+        <p><b>Reward:</b> ₦${data.reward}</p>
 
-          <button class="approve" onclick="approveTask('${submission.id}')">
-            ✅ Approve
-          </button>
+        <p><b>Status:</b> ${data.status}</p>
 
-          <button class="reject" onclick="rejectTask('${submission.id}')">
-            ❌ Reject
-          </button>
+        <button class="approve"
+        onclick="approveTask('${submission.id}')">
 
-        </div>
+        ✅ Approve
+
+        </button>
+
+        <button class="reject"
+        onclick="rejectTask('${submission.id}')">
+
+        ❌ Reject
+
+        </button>
+
+      </div>
+
       `;
 
     }
@@ -76,8 +80,6 @@ async function loadSubmissions() {
     console.error(error);
 
     submissions.innerHTML = "<h3>Failed to load submissions.</h3>";
-
-    alert(error.message);
 
   }
 
@@ -114,35 +116,31 @@ window.approveTask = async function(id) {
 
     const user = userSnap.data();
 
-    const currentBalance = Number(user.balance || 0);
-
     const reward = Number(data.reward || 0);
 
     await updateDoc(userRef, {
-      balance: currentBalance + reward
+      balance: Number(user.balance || 0) + reward,
+      tasks: Number(user.tasks || 0) + 1
     });
-    await addDoc(collection(db, "transactions"), {
 
-  userId: data.userId,
-
-  title: "Task Reward",
-
-  amount: reward,
-
-  type: "credit",
-
-  status: "completed",
-
-  createdAt: serverTimestamp()
-
-});
-import {
-  addDoc,
-  collection,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     await updateDoc(submissionRef, {
       status: "approved"
+    });
+
+    await addDoc(collection(db, "transactions"), {
+
+      userId: data.userId,
+
+      title: "Task Reward",
+
+      amount: reward,
+
+      type: "credit",
+
+      status: "completed",
+
+      createdAt: serverTimestamp()
+
     });
 
     alert("Task Approved Successfully!");
@@ -166,14 +164,6 @@ window.rejectTask = async function(id) {
     await updateDoc(doc(db, "taskSubmissions", id), {
       status: "rejected"
     });
-    await addDoc(collection(db, "transactions"), {
-  userId: data.userId,
-  title: "Task Reward",
-  amount: reward,
-  type: "credit",
-  status: "completed",
-  createdAt: serverTimestamp()
-});
 
     alert("Task Rejected.");
 
