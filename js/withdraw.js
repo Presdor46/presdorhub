@@ -2,7 +2,7 @@ import { auth, db } from "./firebase.js";
 
 import {
   onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
   doc,
@@ -10,14 +10,15 @@ import {
   collection,
   addDoc,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const amountInput = document.getElementById("amount");
+const balance = document.getElementById("balance");
 const withdrawBtn = document.getElementById("withdrawBtn");
 
 let currentUser = null;
+let currentBalance = 0;
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
     window.location.href = "login.html";
@@ -26,25 +27,9 @@ onAuthStateChanged(auth, (user) => {
 
   currentUser = user;
 
-});
-
-withdrawBtn.addEventListener("click", async () => {
-
   try {
 
-    if (!currentUser) {
-      alert("Please login first.");
-      return;
-    }
-
-    if (!amountInput.value) {
-      alert("Please enter amount.");
-      return;
-    }
-
-    const withdrawAmount = Number(amountInput.value);
-
-    const userRef = doc(db, "users", currentUser.uid);
+    const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
@@ -52,42 +37,63 @@ withdrawBtn.addEventListener("click", async () => {
       return;
     }
 
-    const userData = userSnap.data();
+    const data = userSnap.data();
 
-    if (withdrawAmount <= 0) {
-      alert("Invalid amount.");
-      return;
-    }
+    currentBalance = Number(data.balance || 0);
 
-    if (withdrawAmount > (userData.balance || 0)) {
-      alert("Insufficient balance.");
-      return;
-    }
-
-    await addDoc(collection(db, "withdrawals"), {
-      uid: currentUser.uid,
-      amount: withdrawAmount,
-      status: "pending",
-      createdAt: serverTimestamp()
-    });
-
-    await addDoc(collection(db, "transactions"), {
-      uid: currentUser.uid,
-      type: "Withdrawal",
-      amount: withdrawAmount,
-      status: "Pending",
-      createdAt: serverTimestamp()
-    });
-
-    alert("Withdrawal request submitted successfully.");
-
-    amountInput.value = "";
+    balance.textContent = "₦" + currentBalance;
 
   } catch (error) {
 
     alert(error.message);
-    console.log(error);
 
   }
 
 });
+
+withdrawBtn.addEventListener("click", async () => {
+
+  const amount = Number(document.getElementById("amount").value);
+  const accountName = document.getElementById("accountName").value.trim();
+  const accountNumber = document.getElementById("accountNumber").value.trim();
+  const bankName = document.getElementById("bankName").value.trim();
+
+  if (!amount || !accountName || !accountNumber || !bankName) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  if (amount < 1000) {
+    alert("Minimum withdrawal is ₦1000.");
+    return;
+  }
+
+  if (amount > currentBalance) {
+    alert("Insufficient balance.");
+    return;
+  }
+
+  try {
+
+    await addDoc(collection(db, "withdrawRequests"), {
+
+      userId: currentUser.uid,
+      amount: amount,
+      accountName: accountName,
+      accountNumber: accountNumber,
+      bankName: bankName,
+      status: "pending",
+      createdAt: serverTimestamp()
+
+    });
+
+    alert("Withdrawal request submitted successfully.");
+
+    document.getElementById("amount").value = "";
+    document.getElementById("accountName").value = "";
+    document.getElementById("accountNumber").value = "";
+    document.getElementById("bankName").value = "";
+
+  } catch (error) {
+
+    alert
