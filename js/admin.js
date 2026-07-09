@@ -1,78 +1,68 @@
 import { auth, db } from "./firebase.js";
 
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { onAuthStateChanged }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
   collection,
   getDocs,
-  doc,
-  getDoc,
   query,
-  where
+  where,
+  doc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const usersCount = document.getElementById("usersCount");
 const tasksCount = document.getElementById("tasksCount");
+const depositCount = document.getElementById("depositCount");
 const withdrawCount = document.getElementById("withdrawCount");
-const transactionCount = document.getElementById("transactionCount");
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, async(user)=>{
 
-  if (!user) {
-    window.location.href = "login.html";
+  if(!user){
+    location.href="login.html";
     return;
   }
 
-  try {
+  try{
 
-    // Tabbatar admin ne
-    const userSnap = await getDoc(doc(db, "users", user.uid));
+    const adminSnap = await getDoc(doc(db,"users",user.uid));
 
-    if (!userSnap.exists()) {
-      alert("User not found.");
-      window.location.href = "dashboard.html";
+    if(!adminSnap.exists()){
+      location.href="dashboard.html";
       return;
     }
 
-    const userData = userSnap.data();
-
-    if (userData.isAdmin !== true) {
-      alert("Access denied. Admin only.");
-      window.location.href = "dashboard.html";
+    if(adminSnap.data().isAdmin!==true){
+      alert("Access Denied");
+      location.href="dashboard.html";
       return;
     }
 
-    // Total Users
-    const usersSnapshot = await getDocs(collection(db, "users"));
-    usersCount.textContent = usersSnapshot.size;
+    usersCount.textContent =
+      (await getDocs(collection(db,"users"))).size;
 
-    // Pending Tasks
-    const pendingTasks = await getDocs(
-      query(
-        collection(db, "taskSubmissions"),
-        where("status", "==", "pending")
-      )
-    );
-    tasksCount.textContent = pendingTasks.size;
+    tasksCount.textContent =
+      (await getDocs(query(
+        collection(db,"taskSubmissions"),
+        where("status","==","pending")
+      ))).size;
 
-    // Pending Withdrawals
-    const pendingWithdraws = await getDocs(
-      query(
-        collection(db, "withdrawRequests"),
-        where("status", "==", "pending")
-      )
-    );
-    withdrawCount.textContent = pendingWithdraws.size;
+    depositCount.textContent =
+      (await getDocs(query(
+        collection(db,"depositRequests"),
+        where("status","==","pending")
+      ))).size;
 
-    // Total Transactions
-    const transactions = await getDocs(collection(db, "transactions"));
-    transactionCount.textContent = transactions.size;
+    withdrawCount.textContent =
+      (await getDocs(query(
+        collection(db,"withdrawRequests"),
+        where("status","==","pending")
+      ))).size;
 
-  } catch (error) {
+  }catch(error){
 
-    console.error(error);
+    console.log(error);
     alert(error.message);
 
   }
