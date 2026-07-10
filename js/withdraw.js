@@ -52,7 +52,12 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 withdrawBtn.addEventListener("click", async () => {
-
+  
+if (!currentUser) {
+  alert("Please wait, loading your account...");
+  return;
+}
+  
   const amount = Number(document.getElementById("amount").value);
   const accountName = document.getElementById("accountName").value.trim();
   const accountNumber = document.getElementById("accountNumber").value.trim();
@@ -102,5 +107,3 @@ withdrawBtn.addEventListener("click", async () => {
   }
 
 });
-
-    alert

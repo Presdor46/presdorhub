@@ -27,23 +27,21 @@ onAuthStateChanged(auth, async (user) => {
 
   try {
 
-    const adminRef = doc(db, "users", user.uid);
-    const adminSnap = await getDoc(adminRef);
+    // Check Admin access
+    const AdminRef = doc(db, "Admins", user.uid);
+    const AdminSnap = await getDoc(AdminRef);
 
-    if (!adminSnap.exists()) {
-      location.href = "dashboard.html";
-      return;
-    }
-
-    if (adminSnap.data().isAdmin !== true) {
+    if (!AdminSnap.exists()) {
       alert("Access Denied");
       location.href = "dashboard.html";
       return;
     }
 
+    // Total Users
     const users = await getDocs(collection(db, "users"));
     usersCount.textContent = users.size;
 
+    // Pending Tasks
     const tasks = await getDocs(
       query(
         collection(db, "taskSubmissions"),
@@ -52,6 +50,7 @@ onAuthStateChanged(auth, async (user) => {
     );
     tasksCount.textContent = tasks.size;
 
+    // Pending Deposits
     const deposits = await getDocs(
       query(
         collection(db, "depositRequests"),
@@ -60,6 +59,7 @@ onAuthStateChanged(auth, async (user) => {
     );
     depositCount.textContent = deposits.size;
 
+    // Pending Withdrawals
     const withdraws = await getDocs(
       query(
         collection(db, "withdrawRequests"),

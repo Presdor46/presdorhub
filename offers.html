@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Daily Check-in</title>
+<title>Affiliate Offers - Presdor Hub</title>
+
+<link rel="stylesheet" href="css/style.css">
 
 <style>
 
@@ -17,46 +18,49 @@ background:#f5f7fb;
 }
 
 .header{
-background:#2563EB;
+background:#2563eb;
 color:white;
 padding:20px;
 text-align:center;
-font-size:30px;
+font-size:24px;
 font-weight:bold;
-border-bottom-left-radius:20px;
-border-bottom-right-radius:20px;
 }
 
 .container{
 padding:20px;
 }
 
-.card{
+.offer{
 background:white;
-padding:25px;
-border-radius:15px;
+padding:15px;
+margin-bottom:15px;
+border-radius:12px;
 box-shadow:0 2px 8px rgba(0,0,0,.1);
-text-align:center;
 }
 
-.card h2{
+.offer img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:10px;
 margin-bottom:10px;
 }
 
-.card p{
-font-size:16px;
-color:#555;
+.reward{
+font-size:20px;
+font-weight:bold;
+color:#16a34a;
+margin:10px 0;
 }
 
 button{
 width:100%;
-padding:15px;
-margin-top:20px;
-background:#2563EB;
-color:white;
+padding:12px;
 border:none;
-border-radius:10px;
-font-size:18px;
+border-radius:8px;
+background:#2563eb;
+color:white;
+font-size:16px;
 font-weight:bold;
 cursor:pointer;
 }
@@ -69,34 +73,21 @@ cursor:pointer;
 
 <div class="header">
 
-Daily Check-in
+🎁 Affiliate Offers
 
 </div>
 
 <div class="container">
 
-<div class="card">
+<div id="offers">
 
-<h2>🎁 Daily Reward</h2>
-
-<p>
-Click the button below to claim your daily bonus.
-</p>
-
-<h1>₦100</h1>
-
-<button id="checkinBtn">
-
-Claim Reward
-
-</button>
+Loading offers...
 
 </div>
 
 </div>
 
-<script type="module" src="js/checkin.js"></script>
+<script type="module" src="js/affiliate.js"></script>
 
 </body>
-
 </html>

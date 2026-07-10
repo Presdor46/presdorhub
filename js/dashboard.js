@@ -45,9 +45,14 @@ onAuthStateChanged(auth, async (user) => {
 
     referrals.textContent = data.referrals || 0;
 
-    if (data.isAdmin === true) {
-      adminCard.style.display = "block";
-    }
+    const adminRef = doc(db, "admins", user.uid);
+const adminSnap = await getDoc(adminRef);
+
+if (adminSnap.exists()) {
+    adminCard.style.display = "block";
+} else {
+    adminCard.style.display = "none";
+}
 
     const taskSnapshot = await getDocs(
       query(
@@ -76,3 +81,24 @@ onAuthStateChanged(auth, async (user) => {
   }
 
 });
+const banners = document.querySelectorAll(".banner");
+
+if (banners.length > 0) {
+
+  let currentBanner = 0;
+
+  setInterval(() => {
+
+    banners[currentBanner].classList.remove("active");
+
+    currentBanner++;
+
+    if (currentBanner >= banners.length) {
+      currentBanner = 0;
+    }
+
+    banners[currentBanner].classList.add("active");
+
+  }, 4000);
+
+}

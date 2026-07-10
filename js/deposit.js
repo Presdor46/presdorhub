@@ -26,7 +26,12 @@ onAuthStateChanged(auth, (user) => {
 });
 
 depositBtn.addEventListener("click", async () => {
-
+  
+if (!currentUser) {
+  alert("Please wait, loading your account...");
+  return;
+}
+  
   const amount = Number(document.getElementById("amount").value);
 
   const senderName = document.getElementById("senderName").value.trim();

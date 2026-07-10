@@ -9,7 +9,6 @@ import {
   doc,
   setDoc,
   getDocs,
-  getDoc,
   updateDoc,
   addDoc,
   collection,
@@ -18,16 +17,19 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ================= REGISTER =================
-const referralInput = document.getElementById("referral");
+/* ===========================
+   REGISTER
+=========================== */
+
+const referralInput = document.getElementById("referralCode");
 
 const params = new URLSearchParams(window.location.search);
+const ref = params.get("ref");
 
-const refCode = params.get("ref");
-
-if (referralInput && refCode) {
-  referralInput.value = refCode;
+if (referralInput && ref) {
+  referralInput.value = ref;
 }
+
 const registerBtn = document.getElementById("registerBtn");
 
 if (registerBtn) {
@@ -36,18 +38,18 @@ if (registerBtn) {
 
     const fullName = document.getElementById("fullName").value.trim();
     const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const referral = document.getElementById("referral").value.trim();
     const password = document.getElementById("password").value;
+    const referral = document.getElementById("referralCode").value.trim();
 
-    if (!fullName || !email || !phone || !password) {
+    if (!fullName || !email || !password) {
       alert("Please fill all required fields.");
       return;
     }
 
     try {
 
-      const userCredential = await createUserWithEmailAndPassword(
+      const userCredential =
+      await createUserWithEmailAndPassword(
         auth,
         email,
         password
@@ -55,90 +57,96 @@ if (registerBtn) {
 
       const user = userCredential.user;
 
-      const myReferralCode = user.uid.substring(0, 8).toUpperCase();
+      const myReferralCode =
+      user.uid.substring(0,8).toUpperCase();
 
-await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(db,"users",user.uid),{
 
-  fullName: fullName,
+        fullName,
+        email,
 
-  email: email,
+        balance:0,
+        referrals:0,
+        tasks:0,
+        withdrawals:0,
 
-  phone: phone,
+        referralCode:referral,
+        myReferralCode,
 
-  balance: 0,
+        isAdmin:false,
 
-  referrals: 0,
+        createdAt:serverTimestamp()
 
-  tasks: 0,
+      });
 
-  withdrawals: 0,
+      // Referral Bonus
 
-  referralCode: referral,
+      if(referral){
 
-  myReferralCode: myReferralCode,
+        const q = query(
+          collection(db,"users"),
+          where(
+            "myReferralCode",
+            "==",
+            referral.toUpperCase()
+          )
+        );
 
-  isAdmin: false,
+        const result = await getDocs(q);
 
-  joined: new Date().toISOString()
+        if(!result.empty){
 
-});
-      // ===== Referral Bonus =====
+          const referrerDoc = result.docs[0];
 
-if (referral) {
+          const referrerData = referrerDoc.data();
 
-  const q = query(
-    collection(db, "users"),
-    where("myReferralCode", "==", referral.toUpperCase())
-  );
+          const bonus = 200;
 
-  const result = await getDocs(q);
+          await updateDoc(
+            doc(db,"users",referrerDoc.id),
+            {
 
-  if (!result.empty) {
+              referrals:
+              (referrerData.referrals||0)+1,
 
-    const referrerDoc = result.docs[0];
+              balance:
+              (referrerData.balance||0)+bonus
 
-    const referrerRef = doc(db, "users", referrerDoc.id);
+            }
+          );
 
-    const referrerData = referrerDoc.data();
+          await addDoc(
+            collection(db,"transactions"),
+            {
 
-    const bonus = 200; // Referral Bonus
+              userId:referrerDoc.id,
 
-    await updateDoc(referrerRef, {
+              title:"Referral Bonus",
 
-      referrals: (referrerData.referrals || 0) + 1,
+              amount:bonus,
 
-      balance: (referrerData.balance || 0) + bonus
+              type:"credit",
 
-    });
+              status:"completed",
 
-    await addDoc(collection(db, "transactions"), {
+              createdAt:serverTimestamp()
 
-      userId: referrerDoc.id,
+            }
+          );
 
-      title: "Referral Bonus",
+        }
 
-      amount: bonus,
-
-      type: "credit",
-
-      status: "completed",
-
-      createdAt: serverTimestamp()
-
-    });
-
-  }
-
-}
+      }
 
       alert("Account Created Successfully!");
 
-      window.location.href = "login.html";
+      location.href="login.html";
 
-    } catch (error) {
+    } catch(error){
+
+      console.error(error);
 
       alert(error.message);
-      console.log(error);
 
     }
 
@@ -146,23 +154,31 @@ if (referral) {
 
 }
 
-// ================= LOGIN =================
+/* ===========================
+   LOGIN
+=========================== */
 
 const loginBtn = document.getElementById("loginBtn");
 
-if (loginBtn) {
+if(loginBtn){
 
-  loginBtn.addEventListener("click", async () => {
+  loginBtn.addEventListener("click",async()=>{
 
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
+    const email =
+    document.getElementById("email").value.trim();
 
-    if (!email || !password) {
+    const password =
+    document.getElementById("password").value;
+
+    if(!email || !password){
+
       alert("Please enter email and password.");
+
       return;
+
     }
 
-    try {
+    try{
 
       await signInWithEmailAndPassword(
         auth,
@@ -172,12 +188,13 @@ if (loginBtn) {
 
       alert("Login Successful!");
 
-      window.location.href = "dashboard.html";
+      location.href="dashboard.html";
 
-    } catch (error) {
+    }catch(error){
+
+      console.error(error);
 
       alert(error.message);
-      console.log(error);
 
     }
 

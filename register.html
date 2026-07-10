@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Account - Presdor Hub</title>
+<title>Register - Presdor Hub</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -14,38 +15,67 @@
 <body>
 
 <div class="header">
-<h1>CREATE ACCOUNT</h1>
-<p>Join Presdor Hub Today</p>
+
+<h1>PRESDOR HUB</h1>
+
+<p>Create Your Free Account</p>
+
 </div>
 
 <div class="container">
 
-<input type="text" id="fullName" placeholder="Full Name">
+<div class="card">
 
-<input type="email" id="email" placeholder="Email Address">
+<h2 style="text-align:center;margin-bottom:20px;">
 
-<input type="tel" id="phone" placeholder="Phone Number">
+Create Account
+
+</h2>
 
 <input
 type="text"
-id="referral"
-placeholder="Referral Code (Optional)"
-readonly>
+id="fullName"
+placeholder="Full Name">
 
-<input type="password" id="password" placeholder="Password">
+<input
+type="email"
+id="email"
+placeholder="Email Address">
 
-<button id="registerBtn">Create Account</button>
+<input
+type="password"
+id="password"
+placeholder="Password">
 
-<br><br>
+<input
+type="text"
+id="referralCode"
+placeholder="Referral Code (Optional)">
 
-<p style="text-align:center;">
+<button id="registerBtn">
+
+📝 Create Account
+
+</button>
+
+<p style="text-align:center;margin-top:20px;">
+
 Already have an account?
-<a href="login.html">Login</a>
+
+<a href="login.html">
+
+Login
+
+</a>
+
 </p>
+
+</div>
 
 </div>
 
 <script type="module" src="js/auth.js"></script>
 
 </body>
+
 </html>
