@@ -6,10 +6,13 @@ import {
 
 import {
   doc,
-  getDoc
+  getDoc,
+  collection,
+  getDocs,
+  query,
+  where
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const loader = document.getElementById("loader");
 const welcome = document.getElementById("welcome");
 const balance = document.getElementById("balance");
 const referrals = document.getElementById("referrals");
@@ -27,42 +30,49 @@ onAuthStateChanged(auth, async (user) => {
   try {
 
     const userRef = doc(db, "users", user.uid);
-
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
-
       alert("User not found.");
-
-      loader.style.display = "none";
-
       return;
-
     }
 
     const data = userSnap.data();
 
-    welcome.textContent = "Welcome, " + (data.fullName || "User");
+    welcome.textContent = `Welcome, ${data.fullName || "User"}`;
 
-    balance.textContent = "₦" + (data.balance || 0);
+    balance.textContent = Number(data.balance || 0).toLocaleString();
 
     referrals.textContent = data.referrals || 0;
 
-    tasks.textContent = data.tasks || 0;
+    if (data.isAdmin === true) {
+      adminCard.style.display = "block";
+    }
 
-    withdrawals.textContent = data.withdrawals || 0;
-    
-if (data.isAdmin === true) {
-    adminCard.style.display = "block";
-}
+    const taskSnapshot = await getDocs(
+      query(
+        collection(db, "taskSubmissions"),
+        where("userId", "==", user.uid),
+        where("status", "==", "approved")
+      )
+    );
+
+    tasks.textContent = taskSnapshot.size;
+
+    const withdrawSnapshot = await getDocs(
+      query(
+        collection(db, "withdrawRequests"),
+        where("userId", "==", user.uid)
+      )
+    );
+
+    withdrawals.textContent = withdrawSnapshot.size;
+
   } catch (error) {
 
     console.error(error);
-
     alert(error.message);
 
   }
-
-  loader.style.display = "none";
 
 });
